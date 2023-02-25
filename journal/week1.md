@@ -20,4 +20,8 @@ I implemented the frontend notifications, created a notificatins file to handle 
 
 Run A Docker container using industry best practices
 
-Finally, I ran a docker container with security best practices in which, i wscanned the container for securitry vulnerability, limited each application to 1 container monitored the container secutiy using clair and used appropriate tags for docker images
+I ran a docker container with security best practices in which, i wscanned the container for securitry vulnerability, limited each application to 1 container monitored the container secutiy using clair and used appropriate tags for docker images
+
+Added Postgres and Dynamodb to the application
+
+Added Postgress and dynamo db to the docer compose file to run the containers with the frontend and backend services
