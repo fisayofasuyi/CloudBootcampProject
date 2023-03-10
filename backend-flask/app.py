@@ -3,13 +3,22 @@ from flask import request
 from flask_cors import CORS, cross_origin
 import os
 
-#observability tool
+#observability tool Honeycomb
 from opentelemetry import trace
 from opentelemetry.instrumentation.flask import FlaskInstrumentor
 from opentelemetry.instrumentation.requests import RequestsInstrumentor
 from opentelemetry.exporter.otlp.proto.http.trace_exporter import OTLPSpanExporter
 from opentelemetry.sdk.trace import TracerProvider
 from opentelemetry.sdk.trace.export import BatchSpanProcessor
+
+#adding aws xray to the code
+from aws_xray_sdk.core import xray_recorder
+from aws_xray_sdk.ext.flask.middleware import XRayMiddleware
+
+#xray - initialise tracing
+xray_url = os.getenv("AWS_XRAY_URL")
+xray_recorder.configure(service="backend-flask", dynamic_naming=xray_url)
+
 
 # Initialize tracing and an exporter that can send data to Honeycomb
 provider = TracerProvider()
@@ -30,6 +39,9 @@ from services.create_message import *
 from services.show_activity import *
 
 app = Flask(__name__)
+
+#aws-xray
+XRayMiddleware(app, xray_recorder)
 
 #Honeycomb
 FlaskInstrumentor().instrument_app(app)
