@@ -9,7 +9,7 @@ services:
       OTEL_EXPORTER_OTLP_HEADERS: "x-honeycomb-team=${HONEYCOMB_API_KEY}"
       #AWS_XRAY_URL: "*4567-${GITPOD_WORKSPACE_ID}.${GITPOD_WORKSPACE_CLUSTER_HOST}*"
       #AWS_XRAY_DAEMON_ADDRESS: "xray-daemon:2000"
-      ROLLBAR_ACCESS_TOKEN: "81de83be50b24aeeb3a71801dbb6bd93"
+      ROLLBAR_ACCESS_TOKEN: "${ROLLBAR_ACCESS_TOKEN}"
 
     build: ./backend-flask
     ports:
@@ -19,6 +19,10 @@ services:
   frontend-react-js:
     environment:
       REACT_APP_BACKEND_URL: "https://4567-${GITPOD_WORKSPACE_ID}.${GITPOD_WORKSPACE_CLUSTER_HOST}"
+      REACT_APP_AWS_PROJECT_REGION: "us-east-1"
+      REACT_APP_AWS_COGNITO_REGION: "us-east-1"
+      REACT_APP_AWS_USER_POOLS_ID: "us-east-1_1TGLkzs8A"
+      REACT_APP_CLIENT_ID: "2tat97v9a64pn38ncpbh8js21p"
     build: ./frontend-react-js
     ports:
       - "3000:3000"
@@ -49,8 +53,6 @@ services:
   #xray-daemon:
     #image: "amazon/aws-xray-daemon"
     #environment:
-       #AWS_ACCESS_KEY_ID="AKIA53SIF6AG2J7JI7N6"
-       #AWS_SECRET_ACCESS_KEY="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"
        #AWS_ACCESS_KEY_ID: "${AWS_ACCESS_KEY_ID}"
        #AWS_SECRET_ACCESS_KEY: "${AWS_SECRET_ACCESS_KEY}"
        #AWS_REGION: "us-east-1"
