@@ -26,7 +26,7 @@ services:
     build: ./frontend-react-js
     ports:
       - "3000:3000"
-    volumes:
+    volumes: 
       - ./frontend-react-js:/frontend-react-js
   dynamodb-local:
     # https://stackoverflow.com/questions/67533058/persist-local-dynamodb-data-in-volumes-lack-permission-unable-to-open-databa
