@@ -51,7 +51,7 @@ export default function HomeFeedPage() {
     })
     .catch((err) => console.log(err));
     };
-
+   
 
   React.useEffect(()=>{
     //prevents double call
