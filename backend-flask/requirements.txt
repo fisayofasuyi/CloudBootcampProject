@@ -7,7 +7,9 @@ opentelemetry-exporter-otlp-proto-http
 opentelemetry-instrumentation-flask 
 opentelemetry-instrumentation-requests
 
-aws-xray-sdk
+#aws-xray-sdk
+Flask-JWT-Extended
 
 blinker 
 rollbar
+Flask-AWSCognito

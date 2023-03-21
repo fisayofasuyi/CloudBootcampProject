@@ -1,11 +1,21 @@
 from flask import Flask
 from flask import request
+
 from flask_cors import CORS, cross_origin
+from flask import request
 import os
+
+#jwt library to decouple jwt access token
+from flask_jwt_extended import JWTManager
+from flask_jwt_extended import jwt_required, get_jwt_identity
+
+from flask_jwt_extended import create_access_token, get_jwt_identity
 
 #added rollbar
 import rollbar
 import rollbar.contrib.flask
+
+
 
 
 #observability tool Honeycomb
@@ -22,6 +32,9 @@ from opentelemetry.sdk.trace.export import BatchSpanProcessor
 
 #added rollbar
 from flask import got_request_exception
+
+from flask_awscognito import AWSCognitoAuthentication
+ 
 
 
 #xray - initialise tracing
@@ -48,8 +61,28 @@ from services.message_groups import *
 from services.messages import *
 from services.create_message import *
 from services.show_activity import *
+from lib.cognito_token_auth import CognitoJwtToken, extract_access_token, TokenVerifyError
 
 app = Flask(__name__)
+
+cognito_jwt_token = CognitoJwtToken(
+  user_pool_id=os.getenv('AWS_COGNITO_USER_POOL_ID'), 
+  user_pool_client_id=os.getenv('AWS_COGNITO_USER_POOL_CLIENT_ID'),
+  region=os.getenv('AWS_DEFAULT_REGION'))
+
+#aws cognito environment variables
+app.config['AWS_COGNITO_USER_POOL_ID'] = os.getenv('AWS_COGNITO_USER_POOL_ID')
+app.config['AWS_COGNITO_USER_POOL_CLIENT_ID'] = os.getenv('AWS_COGNITO_USER_POOL_CLIENT_ID')
+
+#aws cognito authentication
+#aws_auth = AWSCognitoAuthentication(app)
+
+# initialize JWT manager in app
+'''
+app.config['JWT_SECRET_KEY'] = 1234
+jwt = JWTManager(app)
+'''
+
 
 #added rollbar
 @app.before_first_request
@@ -68,7 +101,6 @@ def init_rollbar():
     # send exceptions from `app` to rollbar, using flask's signal system.
     got_request_exception.connect(rollbar.contrib.flask.report_exception, app)
 
-
 #aws-xray
 #XRayMiddleware(app, xray_recorder)
 
@@ -80,11 +112,12 @@ RequestsInstrumentor().instrument()
 frontend = os.getenv('FRONTEND_URL')
 backend = os.getenv('BACKEND_URL')
 origins = [frontend, backend]
+
 cors = CORS(
   app, 
   resources={r"/api/*": {"origins": origins}},
-  expose_headers="location,link",
-  allow_headers="content-type,if-modified-since",
+  headers=['Content-Type', 'Authorization'],
+  expose_headers='Authorization',
   methods="OPTIONS,GET,HEAD,POST"
 )
 
@@ -124,10 +157,37 @@ def data_create_message():
   return
 
 @app.route("/api/activities/home", methods=['GET'])
+#@xray_recorder.capture('activities_home')
+#@aws_auth.authentication_required
+#@jwt_required() #decorator for jwt token
+
 def data_home():
   data = HomeActivities.run()
+  access_token = extract_access_token(request.headers)
+  try:
+    claims = cognito_jwt_token.verify(access_token)
+    app.logger.debug("authenicated")
+    app.logger.debug(claims)
+    app.logger.debug(claims['username'])
+
+    data = HomeActivities.run(cognito_user_id=claims['username'])
+  except TokenVerifyError as e:
+    #_ = request.data
+    app.logger.debug(e)
+    app.logger.debug("unauthenicated")
+    data = HomeActivities.run()
+    #claims = aws_auth.claims
   return data, 200
 
+# create a function to generate access tokens
+'''
+def login():
+  access_token = create_access_token(identity=user_id)
+  return jsonify(access_token=access_token)
+
+def protected():
+  user_id = get_jwt_identity()
+'''
 
 @app.route('/rollbar/test')
 def rollbar_test():
@@ -189,3 +249,6 @@ def data_activities_reply(activity_uuid):
 
 if __name__ == "__main__":
   app.run(debug=True)
+
+if __name__ == '__main__':
+  app.run(host='0.0.0.0', port=8080)

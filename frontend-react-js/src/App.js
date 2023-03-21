@@ -38,6 +38,11 @@ Amplify.configure({
 const router = createBrowserRouter([
   {
     path: "/",
+    /*
+    headers: {
+    Authorization: 'Bearer ' + 1234
+    }
+    ,*/
     element: <HomeFeedPage />
   },
   {
