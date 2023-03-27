@@ -13,3 +13,6 @@ Flask-JWT-Extended
 blinker 
 rollbar
 Flask-AWSCognito
+
+psycopg[binary]
+psycopg[pool]
