@@ -7,7 +7,7 @@ printf "${CYAN}== ${LABEL}${NO_COLOR}\n"
 #echo "== db-schema-load"
 
 CONNECTION_URL="postgresql://postgres:password@localhost:5432/cruddur"
-schema_path="db/schema.sql"
+schema_path="schema.sql"
 
 echo $schema_path
 

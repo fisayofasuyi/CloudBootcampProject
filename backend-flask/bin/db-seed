@@ -12,9 +12,9 @@ tput setaf 6; echo "db-schema-load"
 
 
 #CONNECTION_URL="postgresql://postgres:password@localhost:5432/cruddur"
-seed_path="db/seed.sql"
+seed_path="seed.sql"
 
-echo $schema_path
+echo $seed_path
 
 if [ "$1" = "prod" ]; then
 echo "Using Production"
