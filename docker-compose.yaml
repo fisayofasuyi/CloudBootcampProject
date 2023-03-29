@@ -17,8 +17,9 @@ services:
       #AWS_COGNITO_USER_POOL_ID: "${AWS_COGNITO_USER_POOL_ID}"
       AWS_DEFAULT_REGION: "us-east-1"
       CONNECTION_URL: "postgresql://postgres:password@db:5432/cruddur"
-      FRONTEND_URL: "https://fisayofasuyi-refactored-parakeet-gxj9px996jwc94jj-3000.preview.app.github.dev"
-      BACKEND_URL: "https://fisayofasuyi-refactored-parakeet-gxj9px996jwc94jj-4567.preview.app.github.dev"
+      PROD_CONNECTION_URL: "${PROD_CONNECTION_URL}"
+      FRONTEND_URL: "http://localhost:3000"
+      BACKEND_URL: "http://localhost:4567"
       OTEL_SERVICE_NAME: "Cruddur"
 
     build: ./backend-flask
@@ -28,7 +29,7 @@ services:
       - ./backend-flask:/backend-flask
   frontend-react-js:
     environment:
-      REACT_APP_BACKEND_URL: "https://fisayofasuyi-refactored-parakeet-gxj9px996jwc94jj-4567.preview.app.github.dev"
+      REACT_APP_BACKEND_URL: "http://localhost:4567"
       REACT_APP_AWS_PROJECT_REGION: "us-east-1"
       REACT_APP_AWS_COGNITO_REGION: "us-east-1"
       REACT_APP_AWS_USER_POOLS_ID: "us-east-1_GytnSn5Lo"
