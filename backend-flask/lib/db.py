@@ -20,6 +20,11 @@ def query_wrap_array(template):
     ) array_row);
     """
     return sql
+def print_sql_error(err):
+    err_type, err_obj, traceback = sys.exc_info()
+    line_num = traceback.tb_lineno
+    print("\nPsycopg2 error:", err, "on line number:", line_num)
+    print('Psycopg2 traceback:', traceback, "--type", err_type)
 
 connection_url = os.getenv('CONNECTION_URL')
 pool = ConnectionPool(connection_url)
