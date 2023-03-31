@@ -19,7 +19,7 @@ services:
      
       #CONNECTION_URL: "postgresql://postgres:password@db:5432/cruddur"
       #PROD_CONNECTION_URL: "${PROD_CONNECTION_URL}"
-      PROD_CONNECTION_URL: "postgresql://root:Fisayo1993@cruddur-db-instance.c7xkm082eeqv.us-east-1.rds.amazonaws.com:5432/cruddur"
+      PROD_CONNECTION_URL: "{PROD_CONNECTION_URL}"
       FRONTEND_URL: "http://localhost:3000"
       BACKEND_URL: "http://localhost:4567"
       OTEL_SERVICE_NAME: "Cruddur"
@@ -59,8 +59,8 @@ services:
     image: postgres:13-alpine
     restart: always
     environment:
-      - POSTGRES_USER={POSTGRES_USER}
-      - POSTGRES_PASSWORD={POSTGRES_PASSWORD}
+      - POSTGRES_USER="{POSTGRES_USER}"
+      - POSTGRES_PASSWORD="{POSTGRES_PASSWORD}"
     ports:
       - "5432:5432"
     volumes: 
