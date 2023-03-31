@@ -17,7 +17,7 @@ services:
       #AWS_COGNITO_USER_POOL_ID: "${AWS_COGNITO_USER_POOL_ID}"
       AWS_DEFAULT_REGION: "us-east-1"
      
-      #CONNECTION_URL: "postgresql://postgres:password@db:5432/cruddur"
+      
       #PROD_CONNECTION_URL: "${PROD_CONNECTION_URL}"
       PROD_CONNECTION_URL: "{PROD_CONNECTION_URL}"
       FRONTEND_URL: "http://localhost:3000"
