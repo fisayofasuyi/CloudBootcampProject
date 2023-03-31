@@ -22,9 +22,15 @@ export default function ActivityForm(props) {
       const res = await fetch(backend_url, {
         method: "POST",
         headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json'
+          Authorization: `Bearer ${localStorage.getItem('access_token')}`
         },
+        /*headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+          'mode': 'no-cors',
+          'Access-Control-Allow-Origin': 'http://127.0.0.1:5000/api/activities'
+
+        }*/
         body: JSON.stringify({
           message: message,
           ttl: ttl
