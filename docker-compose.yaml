@@ -16,8 +16,10 @@ services:
       #AWS_COGNITO_USER_POOL_CLIENT_ID: "${AWS_COGNITO_USER_POOL_CLIENT_ID}"
       #AWS_COGNITO_USER_POOL_ID: "${AWS_COGNITO_USER_POOL_ID}"
       AWS_DEFAULT_REGION: "us-east-1"
-      CONNECTION_URL: "postgresql://postgres:password@db:5432/cruddur"
-      PROD_CONNECTION_URL: "${PROD_CONNECTION_URL}"
+     
+      #CONNECTION_URL: "postgresql://postgres:password@db:5432/cruddur"
+      #PROD_CONNECTION_URL: "${PROD_CONNECTION_URL}"
+      PROD_CONNECTION_URL: "postgresql://root:Fisayo1993@cruddur-db-instance.c7xkm082eeqv.us-east-1.rds.amazonaws.com:5432/cruddur"
       FRONTEND_URL: "http://localhost:3000"
       BACKEND_URL: "http://localhost:4567"
       OTEL_SERVICE_NAME: "Cruddur"
