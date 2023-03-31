@@ -1,20 +1,19 @@
 import uuid
 from datetime import datetime, timedelta, timezone
-from lib.db import pool, print_sql_error
+from lib.db import  db
+import re
 
 class CreateActivity:
   def validations():
+    pass
 
-
-  def run(message, user_handle, ttl):
+  def run(self, message, user_handle, ttl):
     model = {
       'errors': None,
       'data': None
     }
 
-
-    user_uuid = ""
-    message= ""
+  
 
     
     now = datetime.now(timezone.utc).astimezone()
@@ -50,31 +49,29 @@ class CreateActivity:
         'message': message
       }   
     else:
-      self.createactivity()
+      expires_at = (now + ttl_offset)
+      CreateActivity.create_activity(user_handle, message, expires_at) 
       model['data'] = {
         'uuid': uuid.uuid4(),
-        'display_name': 'Andrew Brown',
+        'display_name': 'Fred',
         'handle':  user_handle,
         'message': message,
         'created_at': now.isoformat(),
         'expires_at': (now + ttl_offset).isoformat()
       }
     return model
-  def createactivity(user_uuid, message, expires_at)
-    sql = f"""
-    INSERT INTO public.activities(user_uuid, message, expires_at) VALUES ('{user_uuid}', '{message}', '{expires_at})
-    
+  
+  def create_activity (handle, message, expires_at):
+    sql = f"""INSERT INTO public.activities(user_uuid, message, expires_at) VALUES(
+      (SELECT uuid from public.users WHERE users.handle = %(handle)s LIMIT 1),
+      %(message)s, %(expires_at)s) RETURNING uuid
     """
-    try:
-      conn = pool.connection()
-      cur = conn.cursor()
-      cur.execute(sql)
-      conn.commit()
-    except Exception as err:
-      print_sql_error(err)
+    uuid = db.query_commit_with_return_id(sql,{
+      'handle': handle,
+      'message': message,
+      'expires_at':expires_at}
+    )
+    #   message= ""
 
-
-
-    
-
-    
+  def query_object_activity():
+    pass
