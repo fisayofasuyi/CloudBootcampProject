@@ -7,6 +7,7 @@ export default function ActivityForm(props) {
   const [count, setCount] = React.useState(0);
   const [message, setMessage] = React.useState('');
   const [ttl, setTtl] = React.useState('7-days');
+  
 
   const classes = []
   classes.push('count')
@@ -18,20 +19,17 @@ export default function ActivityForm(props) {
     event.preventDefault();
     try {
       const backend_url = `${process.env.REACT_APP_BACKEND_URL}/api/activities`
-      console.log('onsubmit payload', message)
+      //const backend_url = '127.0.0.1:5000/api/activities'
+      console.log('onsubmit payload', message, backend_url)
       const res = await fetch(backend_url, {
         method: "POST",
         headers: {
-          Authorization: `Bearer ${localStorage.getItem('access_token')}`
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+        //'Access-Control-Allow-Origin': 'http://localhost:3000'
         },
-        /*headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json',
-          'mode': 'no-cors',
-          'Access-Control-Allow-Origin': 'http://127.0.0.1:5000/api/activities'
-
-        }*/
         body: JSON.stringify({
+          //user_handle: props.user_handle.handle,
           message: message,
           ttl: ttl
         }),
@@ -39,7 +37,9 @@ export default function ActivityForm(props) {
       let data = await res.json();
       if (res.status === 200) {
         // add activity to the feed
-        props.setActivities(current => [data,...current]);
+        //props.setActivities(current => [data,...current]);
+        props.setActivities(current => [data, ...current]);
+        
         // reset and close the form
         setCount(0)
         setMessage('')

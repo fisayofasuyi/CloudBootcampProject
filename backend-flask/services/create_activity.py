@@ -4,10 +4,8 @@ from lib.db import  db
 import re
 
 class CreateActivity:
-  def validations():
-    pass
 
-  def run(self, message, user_handle, ttl):
+  def run(message, user_handle, ttl):
     model = {
       'errors': None,
       'data': None
@@ -50,28 +48,42 @@ class CreateActivity:
       }   
     else:
       expires_at = (now + ttl_offset)
-      CreateActivity.create_activity(user_handle, message, expires_at) 
-      model['data'] = {
-        'uuid': uuid.uuid4(),
-        'display_name': 'Fred',
-        'handle':  user_handle,
-        'message': message,
-        'created_at': now.isoformat(),
-        'expires_at': (now + ttl_offset).isoformat()
-      }
+      uuid = CreateActivity.create_activity(user_handle, message, expires_at) 
+      object_json = CreateActivity.query_object_activity(uuid)
+      model['data'] = object_json
+      
+      #model['data'] = {
+        #'uuid': uuid.uuid4(),
+        #'display_name': 'Fred',
+        #'handle':  user_handle,
+        #'message': message,
+        #'created_at': now.isoformat(),
+        #'expires_at': (now + ttl_offset).isoformat()
+      #}
     return model
   
-  def create_activity (handle, message, expires_at):
+  def create_activity ( message, handle, expires_at):
+    sql = db.template('activities','create')
     sql = f"""INSERT INTO public.activities(user_uuid, message, expires_at) VALUES(
       (SELECT uuid from public.users WHERE users.handle = %(handle)s LIMIT 1),
       %(message)s, %(expires_at)s) RETURNING uuid
     """
-    uuid = db.query_commit_with_return_id(sql,{
+    uuid = db.query_commit(sql,{
       'handle': handle,
       'message': message,
       'expires_at':expires_at}
     )
-    #   message= ""
+    
+    return uuid
 
-  def query_object_activity():
-    pass
+  #was working before
+  def query_object_activity(uuid):
+    sql = f"""INSERT INTO public.activities(user_uuid, message, expires_at) VALUES(
+      (SELECT uuid from public.users WHERE users.handle = %(handle)s LIMIT 1),
+      %(message)s, %(expires_at)s) RETURNING uuid
+    """
+    
+    return db.query_object_json(sql, {
+      'uuid': uuid
+    })
+    

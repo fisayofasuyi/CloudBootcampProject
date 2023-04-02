@@ -19,12 +19,12 @@ import rollbar.contrib.flask
 
 
 #observability tool Honeycomb
-from opentelemetry import trace
-from opentelemetry.instrumentation.flask import FlaskInstrumentor
-from opentelemetry.instrumentation.requests import RequestsInstrumentor
-from opentelemetry.exporter.otlp.proto.http.trace_exporter import OTLPSpanExporter
-from opentelemetry.sdk.trace import TracerProvider
-from opentelemetry.sdk.trace.export import BatchSpanProcessor
+#from opentelemetry import trace
+#from opentelemetry.instrumentation.flask import FlaskInstrumentor
+#from opentelemetry.instrumentation.requests import RequestsInstrumentor
+#from opentelemetry.exporter.otlp.proto.http.trace_exporter import OTLPSpanExporter
+#from opentelemetry.sdk.trace import TracerProvider
+#from opentelemetry.sdk.trace.export import BatchSpanProcessor
 
 #adding aws xray to the code
 #from aws_xray_sdk.core import xray_recorder
@@ -43,11 +43,11 @@ from flask_awscognito import AWSCognitoAuthentication
 
 
 # Initialize tracing and an exporter that can send data to Honeycomb
-provider = TracerProvider()
-processor = BatchSpanProcessor(OTLPSpanExporter())
-provider.add_span_processor(processor)
-trace.set_tracer_provider(provider)
-tracer = trace.get_tracer(__name__)
+#provider = TracerProvider()
+#processor = BatchSpanProcessor(OTLPSpanExporter())
+#provider.add_span_processor(processor)
+#trace.set_tracer_provider(provider)
+#tracer = trace.get_tracer(__name__)
 
 
 
@@ -105,8 +105,8 @@ def init_rollbar():
 #XRayMiddleware(app, xray_recorder)
 
 #Honeycomb
-FlaskInstrumentor().instrument_app(app)
-RequestsInstrumentor().instrument()
+#FlaskInstrumentor().instrument_app(app)
+#RequestsInstrumentor().instrument()
 
 
 frontend = os.getenv('FRONTEND_URL')
@@ -220,10 +220,10 @@ def data_search():
 @app.route("/api/activities", methods=['POST','OPTIONS'])
 @cross_origin()
 def data_activities():
-  user_handle  = 'andrewbrown'
+  user_handle  = 'fred'
   message = request.json['message']
   ttl = request.json['ttl']
-  model = CreateActivity.run(message, user_handle, ttl)
+  model = CreateActivity.run(user_handle, message, ttl)
   if model['errors'] is not None:
     return model['errors'], 422
   else:
@@ -252,3 +252,4 @@ if __name__ == "__main__":
 
 if __name__ == '__main__':
   app.run(host='0.0.0.0', port=8080)
+  #app.run(host='localhost', port=5000)
