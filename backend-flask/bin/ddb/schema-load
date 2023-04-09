@@ -14,8 +14,8 @@ ddb = boto3.client('dynamodb', **attrs)
 
 table_name='cruddur-messages'
 
-try:
-    response = ddb.create_table(
+
+response = ddb.create_table(
         TableName=table_name,
         AttributeDefinitions=[
             {
@@ -43,6 +43,4 @@ try:
             'WriteCapacityUnits': 5
         }
     )
-    print(response)
-except Exception as e:
-    print(f"Error creating DynamoDB table: {e}")
+print(response)
