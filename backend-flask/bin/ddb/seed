@@ -98,8 +98,8 @@ def create_message(client, message_group_uuid, created_at, message, my_user_uuid
      )
     print(response)
 
-message_group_uuid = "5ae290ed-55d1-47a0-bc6d-fe2bc2700399"
-now = datetime.now(timezone.utc).astimezone()
+message_group_uuid = "32a8ab42-675b-41a1-9884-fde3abcae3fe"
+now = datetime.now()
 users = get_user_uuids()
 
 create_message_group(client=ddb, message_group_uuid=message_group_uuid, my_user_uuid=users['my_user']['uuid'],
@@ -167,13 +167,13 @@ for i in range(len(lines)):
 
 
 
-    created_at = (now + timedelta(minutes=i)).isoformat()
+    created_at = (now - timedelta(days=i) + timedelta(minutes=i) )
 
 
     create_message(
     client=ddb,
     message_group_uuid=message_group_uuid,
-    created_at=created_at,
+    created_at=created_at.isoformat(),
     message=message,
     my_user_uuid=users[key]['uuid'],
     my_user_display_name=users[key]['display_name'],

@@ -5,7 +5,7 @@ import DesktopNavigation  from '../components/DesktopNavigation';
 import MessageGroupFeed from '../components/MessageGroupFeed';
 
 // [TODO] Authenication
-import Cookies from 'js-cookie'
+//import Cookies from 'js-cookie'
 
 export default function MessageGroupsPage() {
   const [messageGroups, setMessageGroups] = React.useState([]);
@@ -17,7 +17,10 @@ export default function MessageGroupsPage() {
     try {
       const backend_url = `${process.env.REACT_APP_BACKEND_URL}/api/message_groups`
       const res = await fetch(backend_url, {
-        method: "GET"
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('access_token')}`
+          },
+          method: "GET"
       });
       let resJson = await res.json();
       if (res.status === 200) {
@@ -30,16 +33,16 @@ export default function MessageGroupsPage() {
     }
   };  
 
-  const checkAuth = async () => {
-    console.log('checkAuth')
-    // [TODO] Authenication
-    if (Cookies.get('user.logged_in')) {
-      setUser({
-        display_name: Cookies.get('user.name'),
-        handle: Cookies.get('user.username')
-      })
-    }
-  };
+  // const checkAuth = async () => {
+  //   console.log('checkAuth')
+  //   // [TODO] Authenication
+  //   if (Cookies.get('user.logged_in')) {
+  //     setUser({
+  //       display_name: Cookies.get('user.name'),
+  //       handle: Cookies.get('user.username')
+  //     })
+  //   }
+  // };
 
   React.useEffect(()=>{
     //prevents double call
@@ -47,7 +50,7 @@ export default function MessageGroupsPage() {
     dataFetchedRef.current = true;
 
     loadData();
-    checkAuth();
+    // checkAuth();
   }, [])
   return (
     <article>

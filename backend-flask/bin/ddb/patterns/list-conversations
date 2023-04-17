@@ -24,13 +24,14 @@ dynamodb = boto3.client('dynamodb',**attrs)
 table_name = 'cruddur-messages'
 
 
-#your own uuid from the dataase
-fred_user_uuid = '77221497-6c96-4a3d-9a40-46c0414f5072'
+#your own uuid from the database
+fred_user_uuid = '32a8ab42-675b-41a1-9884-fde3abcae3fe'
 
 
 query_params = {
   'TableName': table_name,
   'KeyConditionExpression': 'pk = :pk',
+  'ScanIndexForward': False,
   'ExpressionAttributeValues':{
   ':pk' : {'S': f'GRP#{fred_user_uuid}'}
   },

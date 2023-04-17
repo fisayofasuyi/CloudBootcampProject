@@ -1,19 +1,14 @@
-import uuid
 from datetime import datetime, timedelta, timezone
-from lib.db import  db
-import re
+
+from lib.db import db
 
 class CreateActivity:
-
   def run(message, user_handle, ttl):
     model = {
       'errors': None,
       'data': None
     }
 
-  
-
-    
     now = datetime.now(timezone.utc).astimezone()
 
     if (ttl == '30-days'):
@@ -48,42 +43,22 @@ class CreateActivity:
       }   
     else:
       expires_at = (now + ttl_offset)
-      uuid = CreateActivity.create_activity(user_handle, message, expires_at) 
+      uuid = CreateActivity.create_activity(user_handle,message,expires_at)
+
       object_json = CreateActivity.query_object_activity(uuid)
       model['data'] = object_json
-      
-      #model['data'] = {
-        #'uuid': uuid.uuid4(),
-        #'display_name': 'Fred',
-        #'handle':  user_handle,
-        #'message': message,
-        #'created_at': now.isoformat(),
-        #'expires_at': (now + ttl_offset).isoformat()
-      #}
     return model
-  
-  def create_activity ( message, handle, expires_at):
+
+  def create_activity(handle, message, expires_at):
     sql = db.template('activities','create')
-    sql = f"""INSERT INTO public.activities(user_uuid, message, expires_at) VALUES(
-      (SELECT uuid from public.users WHERE users.handle = %(handle)s LIMIT 1),
-      %(message)s, %(expires_at)s) RETURNING uuid
-    """
     uuid = db.query_commit(sql,{
       'handle': handle,
       'message': message,
-      'expires_at':expires_at}
-    )
-    
+      'expires_at': expires_at
+    })
     return uuid
-
-  #was working before
   def query_object_activity(uuid):
-    sql = f"""INSERT INTO public.activities(user_uuid, message, expires_at) VALUES(
-      (SELECT uuid from public.users WHERE users.handle = %(handle)s LIMIT 1),
-      %(message)s, %(expires_at)s) RETURNING uuid
-    """
-    
-    return db.query_object_json(sql, {
+    sql = db.template('activities','object')
+    return db.query_object_json(sql,{
       'uuid': uuid
     })
-    

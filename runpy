@@ -1,0 +1,7 @@
+#!/usr/bin/bash
+
+
+cd backend-flask && python3 app.py
+
+
+
