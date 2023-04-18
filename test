@@ -1,9 +1,2 @@
 #!/usr/bin/env python
 
-try:
- f = open('testjs.js')
- f.write('hello')
-except:
- print('error')
-finally: 
- f.close()
