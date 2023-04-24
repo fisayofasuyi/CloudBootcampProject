@@ -1,0 +1,17 @@
+#!/usr/bin/bash
+if [ -z $1 ]; then
+    echo "task id is empty"
+
+
+else
+    aws ecs execute-command \
+    --region us-east-1 \
+    --cluster cruddur1 \
+    --task $1 \
+    --container backend-flask \
+    --command "/bin/bash" \
+    --interactive
+
+fi
+
+    

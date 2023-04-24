@@ -11,7 +11,7 @@
     "containerDefinitions":[
       {
         "name": "backend-flask",
-        "image": "952560381965.dkr.ecr.us-east-1.amazonaws.com/backend-flask",
+        "image": "952560381965.dkr.ecr.us-east-1.amazonaws.com/backend-flask:Latest",
         "essential": true,
         "healthCheck":{
           "command":[
@@ -46,12 +46,12 @@
           {"name":"AWS_COGNITO_USER_POOL_CLIENT_ID", "value":"1leg188bgfi4r4qmjtfo1r85g7"},
           {"name":"FRONTEND_URL", "value": "*"}, 
           {"name":"BACKEND_URL", "value": "*"},
+          {"name":"CONNECTION_URL", "value":"postgresql://root:Fisayo1993@cruddur-db-instance.c7xkm082eeqv.us-east-1.rds.amazonaws.com:5432/cruddur"},
           {"name":"AWS_DEFAULT_REGION", "value":"us-east-1"}
         ],
         "secrets": [
           {"name":"AWS_ACCESS_KEY_ID"    , "valueFrom":"arn:aws:ssm:us-east-1:952560381965:parameter/cruddur/backend-flask/AWS_ACCESS_KEY_ID"},
           {"name":"AWS_SECRET_ACCESS_KEY", "valueFrom":"arn:aws:ssm:us-east-1:952560381965:parameter/cruddur/backend-flask/AWS_SECRET_ACCESS_KEY"},
-          {"name":"CONNECTION_URL"       , "valueFrom":"arn:aws:ssm:us-east-1:952560381965:parameter/cruddur/backend-flask/CONNECTION_URL" },
           {"name":"ROLLBAR_ACCESS_TOKEN" , "valueFrom":"arn:aws:ssm:us-east-1:952560381965:parameter/cruddur/backend-flask/ROLLBAR_ACCESS_TOKEN" },
           {"name":"OTEL_EXPORTER_OTLP_HEADERS" , "valueFrom":"arn:aws:ssm:us-east-1:952560381965:parameter/cruddur/backend-flask/OTEL_EXPORTER_OTLP_HEADERS" }
         ]

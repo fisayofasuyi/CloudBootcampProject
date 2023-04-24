@@ -1,0 +1,29 @@
+#!/usr/bin/bash
+
+#find vpc
+export DEFAULT_VPC_ID=$(aws ec2 describe-vpcs \
+--filters "Name=isDefault, Values=true" \
+--query 'Vpcs[*].VpcId' \
+--output text)
+echo $DEFAULT_VPC_ID
+
+#find default subnet
+export DEFAULT_SUBNET_IDS=$(aws ec2 describe-subnets \
+--filters Name=vpc-id,Values=$DEFAULT_VPC_ID \
+--query 'Subnets[*].SubnetId' \
+--output json | jq -r 'join(",")') 
+echo $DEFAULT_SUBNET_IDS
+
+# find security group
+export CRUD_SERVICE_SG=$(aws ec2 create-security-group \
+--group-name "crud-srv-sg" \
+--description "Security group for cruddur services on ECS" \
+--vpc-id $DEFAULT_VPC_ID \
+--query "GroupId" --output text)
+
+#authorize port for security group
+aws ec2 authorize-security-group-ingress \
+--group-id $CRUD_SERVICE_SG \
+--protocol tcp \
+--port 80 \
+--cidr 0.0.0.0/0

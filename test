@@ -1,7 +1,0 @@
-#!/usr/bin/env python
-
-thiset = {1, 2, 3, 4, 5}
-
-thiset.update({7, 8,9})
-
-print(thiset)

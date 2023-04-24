@@ -1,0 +1,15 @@
+#!/usr/bin/bash
+
+aws iam create-role \
+--role-name CruddurServiceExecutionRole \
+--assume-role-policy-document file://../policies/service-assume-role-policy.json
+
+aws iam put-role-policy \
+--policy-name CruddurServiceExecutionPolicy \
+--role-name CruddurServiceExecutionRole \
+--policy-document file://../policies/service-execution-policy.json
+
+aws iam attach-role-policy \
+--policy-arn arn:aws:iam::ssm::aws:policy/service-role/AmazonECSTaskExecutionPolicy \
+--role-name CruddurServiceExecutionRole
+
