@@ -1,4 +1,4 @@
 #!/usr/bin/bash
-# aws ecs register-task-definition --cli-input-json file://aws/task-definitions/backend-flask.json \
+aws ecs register-task-definition --cli-input-json file://../task-definitions/backend-flask.json 
 
-aws ecs register-task-definition --cli-input-json file://../task-definitions/frontend-react-js.json 
+# aws ecs register-task-definition --cli-input-json file://../task-definitions/frontend-react-js.json 
