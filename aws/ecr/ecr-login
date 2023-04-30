@@ -1,0 +1,22 @@
+#!/usr/bin/bash
+
+
+if [ -n "$1" ]; then
+
+  echo $1
+
+  if [ "$1" = "frontend" ]; then
+    aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 952560381965.dkr.ecr.us-east-1.amazonaws.com
+    
+  elif [ "$1" = "backend" ]; then
+    aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 952560381965.dkr.ecr.us-east-1.amazonaws.com
+
+  else 
+   echo "please enter frontend or backend"
+
+   fi
+   
+else
+  echo "second argument cannot be empty"
+
+fi
