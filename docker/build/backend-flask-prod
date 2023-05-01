@@ -1,1 +1,6 @@
-docker build -t backend-flask .
+#!/usr/bin/bash
+docker build -t backend-flask -f Dockerfile.prod .
+
+docker tag backend-flask:latest $ECR_BACKEND_URL:Latest
+
+docker push $ECR_BACKEND_URL:Latest

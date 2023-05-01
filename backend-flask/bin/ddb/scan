@@ -6,9 +6,11 @@ import boto3
 
 
 
-attrs = {
-  'endpoint_url': 'http://localhost:8000'}
+# attrs = {
+#   'endpoint_url': 'http://localhost:8000'}
 
+attrs = {
+  'endpoint_url': 'http://dynamodb.us-east-1.amazonaws.com'}
 
 ddb = boto3.resource('dynamodb', **attrs)
 table_name = 'cruddur-messages'
