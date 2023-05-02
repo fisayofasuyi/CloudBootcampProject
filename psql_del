@@ -1,5 +1,1 @@
-#!/usr/bin/bash
-
-
-
-psql $CONNECTION_URL -c "DELETE FROM activities *;"
+docker run -e AWS_COGNITO_USER_POOL_CLIENT_ID="1leg188bgfi4r4qmjtfo1r85g7"  -e AWS_COGNITO_USER_POOL_ID="us-east-1_GytnSn5Lo"  -e AWS_DEFAULT_REGION="us-east-1"  -e CONNECTION_URL="postgresql://root:Fisayo1993@cruddur-db-instance.c7xkm082eeqv.us-east-1.rds.amazonaws.com:5432/cruddur"  -e OTEL_SERVICE_NAME="Cruddur"  -e REACT_APP_BACKEND_URL="http:localhost:5000"  -e REACT_APP_AWS_PROJECTREGION="us-east-1"  -e REACT_APP_AWS_COGNITO_REGION="us-east-1"  -e REACT_APP_AWS_USER_POOLS_ID="us-east-1_GytnSn5Lo"  -e REACT_APP_CLIENT_ID="1leg188bgfi4r4qmjtfo1r85g7"  -e POSTGRES_USER="postgres"  -e POSTGRES_PASSWORD="password"  -e FRONTEND_URL="http://localhost:3000"  -e BACKEND_URL="http://localhost:5000"  -e PROD_CONNECTION_URL="postgresql:root:Fisayo1993@cruddur-db-instance.c7xkm082eeqv.us-east-1.rds.amazonaws.com:5432cruddur"  -e SG_ID="sg-0bad42465b24725c6"  -e SG_RULE_ID="sgr-01cb77912836e7e2c"  -e region_name='us-east-1'  -e Access_key_ID='AKIA53SIF6AGYOAWX4KG'  -e Secret_access_key='v3JBjeVkNASITQb2fvIR12UmhbMKJtYOMaFdP93'  backend-flask
