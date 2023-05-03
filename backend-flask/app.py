@@ -86,21 +86,21 @@ jwt = JWTManager(app)
 
 
 #added rollbar
-@app.before_first_request
-def init_rollbar():
-    """init rollbar module"""
-    rollbar.init(
-        # access token
-        '81de83be50b24aeeb3a71801dbb6bd93',
-        # environment name
-        'production',
-        # server root directory, makes tracebacks prettier
-        root=os.path.dirname(os.path.realpath(__file__)),
-        # flask already sets up logging
-        allow_logging_basic_config=False)
+with app.app_context():
+  def init_rollbar():
+      """init rollbar module"""
+      rollbar.init(
+          # access token
+          '81de83be50b24aeeb3a71801dbb6bd93',
+          # environment name
+          'production',
+          # server root directory, makes tracebacks prettier
+          root=os.path.dirname(os.path.realpath(__file__)),
+          # flask already sets up logging
+          allow_logging_basic_config=False)
 
-    # send exceptions from `app` to rollbar, using flask's signal system.
-    got_request_exception.connect(rollbar.contrib.flask.report_exception, app)
+      # send exceptions from `app` to rollbar, using flask's signal system.
+      got_request_exception.connect(rollbar.contrib.flask.report_exception, app)
 
 #aws-xray
 #XRayMiddleware(app, xray_recorder)
