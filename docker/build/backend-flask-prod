@@ -9,10 +9,9 @@ if [ -f $f ]; then
     # docker build  -f Dockerfile.prod -t backend-flask .
      docker build  -f /workspaces/aws-bootcamp-cruddur-2023/backend-flask/Dockerfile.prod -t backend-flask /workspaces/aws-bootcamp-cruddur-2023/backend-flask
 
-    # docker tag backend-flask:latest 
-    # $ECR_BACKEND_URL:Latest
+    docker tag backend-flask:latest $ECR_BACKEND_URL:Latest
 
-    # docker push $ECR_BACKEND_URL
+    docker push $ECR_BACKEND_URL:Latest
 
 else
   echo "file f is not a file"
