@@ -20,7 +20,6 @@ export default function ActivityForm(props) {
     try {
       const backend_url = `${process.env.REACT_APP_BACKEND_URL}/api/messages`
       console.log('onsubmit payload', message)
-      
       let json = { 'message': message }
       if (params.handle) {
         json.handle = params.handle
@@ -36,7 +35,7 @@ export default function ActivityForm(props) {
           'Accept': 'application/json',
           'Content-Type': 'application/json'
         },
-      body: JSON.stringify(json)
+        body: JSON.stringify(json)
       });
       let data = await res.json();
       if (res.status === 200) {

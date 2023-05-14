@@ -10,8 +10,7 @@ import checkAuth from '../lib/CheckAuth'
 
 // [TODO] Authenication
 
-
-export default function MessageGroupPage() {
+export default function MessageGroupPage () {
   const [otherUser, setOtherUser] = React.useState([]);
   const [messageGroups, setMessageGroups] = React.useState([]);
   const [messages, setMessages] = React.useState([]);
