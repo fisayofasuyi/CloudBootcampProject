@@ -1,0 +1,5 @@
+#!/usr/bin/bash
+
+cdk bootstrap "aws://952560381965/us-east-1"
+
+cdk deploy
