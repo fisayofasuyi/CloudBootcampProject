@@ -42,7 +42,8 @@ class Db:
     print(f'{cyan} SQL STATEMENT-[{title}]------{no_color}')
     print(sql)
 
-  def query_commit(self,sql,params={}):
+  def query_commit(self,sql,params={}, verbose=True):
+    self.print_sql('commit with returning', sql)
     pattern = r"\bRETURNING\b"
     is_returning_id = re.search(pattern, sql)
 
@@ -58,8 +59,9 @@ class Db:
     except Exception as err:
       self.print_sql_err(err)
   # when we want to return a json object
-  def query_array_json(self,sql,params={}):
-    self.print_sql('array',sql)
+  def query_array_json(self,sql,params={}, verbose=True):
+    if verbose:
+        self.print_sql('array',sql)
 
     wrapped_sql = self.query_wrap_array(sql)
     with self.pool.connection() as conn:
@@ -69,8 +71,9 @@ class Db:
         return json[0]
   # When we want to return an array of json objects
 
-  def query_value(self,sql,params={}):
-    self.print_sql('value',sql)
+  def query_value(self,sql,params={}, verbose=True):
+    if verbose:
+        self.print_sql('value',sql)
     with self.pool.connection() as conn:
       with conn.cursor() as cur:
         cur.execute(sql,params)
@@ -86,10 +89,10 @@ class Db:
     """
     return sql
 
-  def query_object_json(self,sql,params={}):
-
-    self.print_sql('json',sql)
-    self.print_params(params)
+  def query_object_json(self,sql,params={}, verbose=True):
+    if verbose:
+        self.print_sql('json',sql)
+        self.print_params(params)
     wrapped_sql = self.query_wrap_object(sql)
 
     with self.pool.connection() as conn:

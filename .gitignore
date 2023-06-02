@@ -1,5 +1,5 @@
 env2*
-envar*
+envvar*
 frontend-react-js/build/*
 psql_del*
 node_modules
