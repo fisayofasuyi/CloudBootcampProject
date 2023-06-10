@@ -15,9 +15,11 @@ export default function ProfileForm(props) {
   const s3uploadkey = async (extension)=> {
     console.log('ext',extension)
     try {
-      const gateway_url = `${process.env.REACT_APP_API_GATEWAY_ENDPOINT_URL}/avatars/key_upload`
+      const gateway_url = `${process.env.REACT_APP_API_GATEWAY_ENDPOINT_URL}`
       await getAccessToken()
       const access_token = localStorage.getItem("access_token")
+      console.log(access_token)
+      console.log(gateway_url)
       const json = {
         extension: extension
       }
@@ -25,7 +27,7 @@ export default function ProfileForm(props) {
         method: "POST",
         body: JSON.stringify(json),
         headers: {
-          'Origin': process.env.REACT_APP_FRONTEND_URL,
+          'Origin': process.env.FRONTEND_URL,
           'Authorization': `Bearer ${access_token}`,
           'Accept': 'application/json',
           'Content-Type': 'application/json'
@@ -52,6 +54,7 @@ export default function ProfileForm(props) {
     const fileparts = filename.split('.')
     const extension = fileparts[fileparts.length-1]
     const presignedurl = await s3uploadkey(extension)
+    console.log('Presignedurl',presignedurl)
     try {
       console.log('s3upload')
       const res = await fetch(presignedurl, {
@@ -60,6 +63,7 @@ export default function ProfileForm(props) {
         headers: {
           'Content-Type': type
       }})
+      console.log(presignedurl)
       if (res.status === 200) {
         
       } else {
@@ -93,6 +97,7 @@ export default function ProfileForm(props) {
         setBio(null)
         setDisplayName(null)
         props.setPopped(false)
+        console.log(data)
       } else {
         console.log(res)
       }

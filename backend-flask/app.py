@@ -2,7 +2,7 @@ from flask import Flask
 from flask import request
 
 from flask_cors import CORS, cross_origin
-from flask import request
+from flask import url_for
 import os
 
 #jwt library to decouple jwt access token
@@ -350,6 +350,9 @@ def data_update_profile():
     # unauthenicatied request
     app.logger.debug(e)
     return {}, 401
+
+with app.test_request_context():
+  print(url_for('data_home'))
 
 if __name__ == "__main__":
   app.run(debug=True)

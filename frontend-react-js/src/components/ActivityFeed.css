@@ -11,8 +11,8 @@
 }
 
 .activity_feed_heading {
-  /* padding: 16px; */
-  /* padding-bottom: 48px;  */
+  padding: 16px; 
+  padding-bottom: 48px;  
   border-bottom: solid 1px rgb(58,63,78);
 }
 
