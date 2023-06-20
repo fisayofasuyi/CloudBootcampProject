@@ -1,5 +1,5 @@
 #!/usr/bin/bash
-
+source env2
 
 cd backend-flask && python3 app.py
 

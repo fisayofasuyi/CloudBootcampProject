@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <p id ='p'>
+        Trying
+    </p>
+
+    <script>
+        
+     async function preUrl() {
+        let res = await fetch('https://hhu1eddfb0.execute-api.us-east-1.amazonaws.com/avatars/my_url', 
+        {
+            method: 'POST',
+            headers: {
+                'Origin': 'http://localhost:3000',
+                'Content-Type': 'image/jpeg',
+                'Accept': 'application/json'
+            },
+        
+        
+        })
+
+        let response = await res.json()
+
+        if(res.status == 200) {
+            return response.url
+        }
+        document.getElementById('p').innerHTML = response
+     }
+        preUrl()
+    </script>
+</body>
+</html>

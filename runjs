@@ -1,3 +1,5 @@
 #!/usr/bin/bash
 
+source env2
+
 cd frontend-react-js && npm run start

@@ -4,6 +4,7 @@ import process from 'process';
 import {getAccessToken} from '../lib/CheckAuth';
 
 export default function ProfileForm(props) {
+  // const {presignedUrl, setPresignedUrl} = React.useState('');
   const [bio, setBio] = React.useState('');
   const [displayName, setDisplayName] = React.useState('');
 
@@ -25,12 +26,17 @@ export default function ProfileForm(props) {
       }
       const res = await fetch(gateway_url, {
         method: "POST",
-        body: JSON.stringify(json),
+        // body: JSON.stringify(json),
         headers: {
-          'Origin': process.env.FRONTEND_URL,
-          'Authorization': `Bearer ${access_token}`,
+          // 'Origin': process.env.REACT_APP_BACKEND_URL,
+          'Origin': 'http://localhost:3000',
+          // 'Authorization': `${access_token}`,
+          'Authorization': `${access_token}`,
           'Accept': 'application/json',
           'Content-Type': 'application/json'
+          // 'Content-Type': 'image/jpg'
+          
+
         }
       })
       let data = await res.json();
@@ -93,11 +99,13 @@ export default function ProfileForm(props) {
         }),
       });
       let data = await res.json();
+      console.log('Data', data, res.status);
       if (res.status === 200) {
         setBio(null)
         setDisplayName(null)
         props.setPopped(false)
         console.log(data)
+        // setPresignedUrl(data.url)
       } else {
         console.log(res)
       }
