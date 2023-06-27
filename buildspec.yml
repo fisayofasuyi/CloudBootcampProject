@@ -32,12 +32,12 @@ env:
     #AWS_COGNITO_USER_POOL_CLIENT_ID: 1leg188bgfi4r4qm{jtfo1r85g7
     IMAGE_URL: 952560381965.dkr.ecr.us-east-1.amazonaws.com
     REPO_NAME: backend-flask:Latest
-  #parameter-store:
-    #ACCESS_kEY_ID: /cruddur/backend-flask/${ACCESS_kEY_ID}
-    #AWS_SECRET_ACCESS_KEY: /cruddur/backend-flask/${AWS_SECRET_ACCESS_KEY}
-    #CONNECTION_URL: /cruddur/backend-flask/${CONNECTION_URL}
-    #ROLLBAR_ACCESS_TOKEN: /cruddur/backend-flask/${ROLLBAR_ACCESS_TOKEN}
-    #OTEL_EXPORTER_OTLP_HEADERS: /cruddur/backend-flask/x-honeycomb-team=${HONEYCOMB_API_KEY}
+  parameter-store:
+    ACCESS_kEY_ID: /cruddur/backend-flask/${ACCESS_kEY_ID}
+    AWS_SECRET_ACCESS_KEY: /cruddur/backend-flask/${AWS_SECRET_ACCESS_KEY}
+    CONNECTION_URL: /cruddur/backend-flask/${CONNECTION_URL}
+    ROLLBAR_ACCESS_TOKEN: /cruddur/backend-flask/${ROLLBAR_ACCESS_TOKEN}
+    OTEL_EXPORTER_OTLP_HEADERS: /cruddur/backend-flask/x-honeycomb-team=${HONEYCOMB_API_KEY}
     
 
 artifacts:
